@@ -11,8 +11,11 @@ Check the expected output of a command across N hosts and compare to what you th
 knife canon -C "good stuff" QUERY COMMAND
 
 example:
+
 knife canon -C "rsync-3.0.6-1.el5.rf" fqdn:example.com "rpm -q rsync"
+
 myhost1.example.com failed to match expected output: rsync-3.0.5
+
 myhost2.example.com failed to match expected output: rsync-3.0.4
 
 
