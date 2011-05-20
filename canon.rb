@@ -1,4 +1,5 @@
 require 'chef/knife'
+require 'highline'
 
 module Lnxchk
   class Canon < Chef::Knife
@@ -18,14 +19,21 @@ module Lnxchk
       :long => '--goodcopy CMD',
       :boolean => false,
       :description => 'Command output expected'
-  
+
+    def h
+      @highline ||= HighLine.new
+    end
+
     def run
+      # Hmmm, I think this helps make Highline output consistent
+      $stdout.sync = true
+
       query = name_args[0]
       command = name_args[1]
 
       if config[:goodcopy]
         goodcopy = config[:goodcopy]
-      else 
+      else
         print "Please use -C or --goodcopy to add a master output string"
         exit 1
       end
@@ -46,10 +54,10 @@ module Lnxchk
       file.each_line do |line|
         host, data = line.split(" ")
         if data != goodcopy
-          puts "#{host} failed to match expected output: #{data}"
+          puts h.color("#{host} failed to match expected output: #{data}", :red)
         end
       end
-      
+
     end # close run
   end # close class
 end # close module
