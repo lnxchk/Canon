@@ -45,7 +45,7 @@ module Lnxchk
 
       file = File.open('./file', 'r')
       file.each_line do |line|
-        host, data = line.split(" ")
+        host, data = line.split(" ", 2)
         if data !~ /#{goodcopy}/
           ui.msg(ui.color("ERROR: #{host} failed to match expected output: #{data}", :red) )
         else
