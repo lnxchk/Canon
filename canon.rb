@@ -35,11 +35,10 @@ module Lnxchk
 
       cmd_line = command
       knife_ssh.name_args = [query, cmd_line]
-      stdout_orig = $stdout
-      $stdout = File.new('file', 'w')
+      stdout_orig = STDOUT.clone
+      STDOUT.reopen(File.new('file', 'w'))
       knife_ssh.run
-      $stdout.close
-      $stdout = stdout_orig
+      $stdout.reopen(stdout_orig)
 
       matches = 0
 
